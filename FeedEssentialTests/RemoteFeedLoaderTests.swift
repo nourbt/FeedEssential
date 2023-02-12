@@ -42,6 +42,7 @@ class RemoteFeedLoaderTests: XCTestCase {
         return(sut: sut, client: client)
     }
     
+    // is capturing the URLs passed to the HTTPClient in requestedURLs property
     class HTTPClientSpy: HTTPClient {
         var requestedURLs = [URL]()
         
