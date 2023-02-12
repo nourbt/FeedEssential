@@ -16,7 +16,7 @@ class RemoteFeedLoaderTests: XCTestCase {
     }
     
     // We're testing that the RemoteFeedLoader will request data from URL using the HTTPClient
-    func test_load_request_DataFromURL() {
+    func test_load_requestsDataFromURL() {
         let url = URL(string: "https://a-url.com")!
         let (sut, client) = makeSUT(url: url)
         
