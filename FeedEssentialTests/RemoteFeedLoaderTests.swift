@@ -58,19 +58,15 @@ class RemoteFeedLoaderTests: XCTestCase {
     
     // is capturing the URLs passed to the HTTPClient in requestedURLs property
     class HTTPClientSpy: HTTPClient {
-        var requestedURLs = [URL]()
-        var completions = [(Error) -> Void]()
+        private var messages = [url: [URL](), completions: [(Error) -> Void]()]
 
         func get(from url: URL, completion: @escaping (Error) -> Void) {
-//            if let error = error {
-//                completion(error) // we removed, so we are not stubbing, we dont have a behavior
-//            }
-            requestedURLs.append(url)
-            completions.append(completion)
+            //clients only captures values
+            messages.append((url, completion))
         }
         
         func complete(with error: Error, at index: Int = 0) {
-            completions[index](error)
+            messages[index].completion(error)
         }
 
     }
