@@ -7,9 +7,13 @@
 
 import Foundation
 
+public enum HTTPClientResult {
+    case success(HTTPURLResponse)
+    case failure(Error)
+}
 // HTTPClient can be public as it could be implemented by external modules
 public protocol HTTPClient {
-    func get(from url: URL, completion: @escaping (Error?, HTTPURLResponse?) -> Void)
+    func get(from url: URL, completion: @escaping (HTTPClientResult) -> Void)
 }
 
 public final class RemoteFeedLoader {
@@ -29,10 +33,11 @@ public final class RemoteFeedLoader {
     // default closure
     public func load(completion: @escaping (Error) -> Void) {
         // mapping between our Error and the domain Error connectivity
-        client.get(from: url) { error, response in
-            if response != nil {
+        client.get(from: url) { result in
+            switch result {
+            case .success :
                 completion(.invalidData)
-            } else if error != nil {
+            case .failure:
                 completion(.connectivity)
             }
             
