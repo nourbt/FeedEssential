@@ -9,7 +9,7 @@ import Foundation
 
 // HTTPClient can be public as it could be implemented by external modules
 public protocol HTTPClient {
-    func get(from url: URL, completion: @escaping (Error) -> Void)
+    func get(from url: URL, completion: @escaping (Error?, HTTPURLResponse?) -> Void)
 }
 
 public final class RemoteFeedLoader {
@@ -18,6 +18,7 @@ public final class RemoteFeedLoader {
     
     public enum Error: Swift.Error {
         case connectivity
+        case invalidData
     }
     // can be created by external modules, so make it public
    public init(url: URL, client: HTTPClient) {
@@ -26,10 +27,15 @@ public final class RemoteFeedLoader {
     }
     // within our method we invoke somthng like HTTPClient..
     // default closure
-    public func load(completion: @escaping (Error) -> Void = { _ in } ) {
+    public func load(completion: @escaping (Error) -> Void) {
         // mapping between our Error and the domain Error connectivity
-        client.get(from: url) { error in
-            completion(.connectivity)
+        client.get(from: url) { error, response in
+            if response != nil {
+                completion(.invalidData)
+            } else if error != nil {
+                completion(.connectivity)
+            }
+            
         }
     }
 }

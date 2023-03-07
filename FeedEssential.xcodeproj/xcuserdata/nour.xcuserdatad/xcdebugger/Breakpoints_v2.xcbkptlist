@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B7975613-5EDF-4F18-94EA-E695C801BB43"
+            uuid = "220068B1-C376-4CA0-BAB0-159101A62AE7"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FeedEssentialTests/RemoteFeedLoaderTests.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
-            landmarkName = "test_load_deliversErrorOnClientError()"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "test_load_deliversErrorOnNon200HTTPResponse()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
