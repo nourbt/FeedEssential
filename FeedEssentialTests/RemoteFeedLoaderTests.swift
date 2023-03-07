@@ -20,7 +20,7 @@ class RemoteFeedLoaderTests: XCTestCase {
         let url = URL(string: "https://a-url.com")!
         let (sut, client) = makeSUT(url: url)
         
-        sut.load() // Act pass as param
+        sut.load()  // Act pass as param
         XCTAssertEqual(client.requestedURLs, [url]) // Assert
     }
     
@@ -58,7 +58,12 @@ class RemoteFeedLoaderTests: XCTestCase {
     
     // is capturing the URLs passed to the HTTPClient in requestedURLs property
     class HTTPClientSpy: HTTPClient {
-        private var messages = [url: [URL](), completions: [(Error) -> Void]()]
+    
+        private var messages = [(url: URL, completion: (Error) -> Void)]()
+        // computed property
+        var requestedURLs: [URL] {
+            return messages.map {$0.url}
+        }
 
         func get(from url: URL, completion: @escaping (Error) -> Void) {
             //clients only captures values

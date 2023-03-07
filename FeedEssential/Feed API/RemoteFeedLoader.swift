@@ -26,7 +26,7 @@ public final class RemoteFeedLoader {
     }
     // within our method we invoke somthng like HTTPClient..
     // default closure
-    public func load(completion: @escaping (Error) -> Void = { _ in }) {
+    public func load(completion: @escaping (Error) -> Void = { _ in } ) {
         // mapping between our Error and the domain Error connectivity
         client.get(from: url) { error in
             completion(.connectivity)
