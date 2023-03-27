@@ -24,6 +24,11 @@ public final class RemoteFeedLoader {
         case connectivity
         case invalidData
     }
+    
+    public enum Result: Equatable {
+        case success([FeedItem])
+        case failure(Error)
+    }
     // can be created by external modules, so make it public
    public init(url: URL, client: HTTPClient) {
         self.url = url
@@ -31,14 +36,14 @@ public final class RemoteFeedLoader {
     }
     // within our method we invoke somthng like HTTPClient..
     // default closure
-    public func load(completion: @escaping (Error) -> Void) {
+    public func load(completion: @escaping (Result) -> Void) {
         // mapping between our Error and the domain Error connectivity
         client.get(from: url) { result in
             switch result {
             case .success :
-                completion(.invalidData)
+                completion(.failure(.invalidData))
             case .failure:
-                completion(.connectivity)
+                completion(.failure(.connectivity))
             }
             
         }

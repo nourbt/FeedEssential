@@ -64,6 +64,11 @@ class RemoteFeedLoaderTests: XCTestCase {
             client.complete(withStatusCode: 200, data: invalidJSON)
         }
     }
+    
+//    func test_load_deliversNotItemsOn200HTTPResponseWithEmptyJSONList(){
+//        let(sut, client) = makeSUT()
+//        var capture
+//    }
 
     // MARK: -Helpers
     
@@ -74,12 +79,12 @@ class RemoteFeedLoaderTests: XCTestCase {
     }
     
     private func expect(_ sut: RemoteFeedLoader, toCompleteWithError error: RemoteFeedLoader.Error, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
-        var capturedError = [RemoteFeedLoader.Error]()
+        var capturedResults = [RemoteFeedLoader.Result]()
         sut.load {
-            capturedError.append($0) // stubbing
+            capturedResults.append($0) // stubbing
         }
        action()
-        XCTAssertEqual(capturedError, [error], file: file, line: line)
+        XCTAssertEqual(capturedResults, [.failure(error)], file: file, line: line)
     }
     
     // is capturing the URLs passed to the HTTPClient in requestedURLs property
