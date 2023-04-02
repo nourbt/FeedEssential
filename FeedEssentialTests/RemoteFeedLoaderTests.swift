@@ -95,6 +95,23 @@ class RemoteFeedLoaderTests: XCTestCase {
         }
 
     }
+    
+    func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
+        let client = HTTPClientSpy()
+        let url = URL(string: "https://a-url.com")!
+        var sut: RemoteFeedLoader? = RemoteFeedLoader(url: url, client: client)
+        
+       
+        var capturedResults = [RemoteFeedLoader.Result]()
+        sut?.load {
+            capturedResults.append($0) // stubbing
+        }
+        
+        sut = nil // means it is deallocated, not in memory anymore
+        client.complete(withStatusCode: 200, data: makeItemJson([]))
+        
+        XCTAssertTrue(capturedResults.isEmpty)
+    }
 
     // MARK: -Helpers
     
