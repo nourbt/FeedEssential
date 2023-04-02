@@ -21,13 +21,3 @@ public struct FeedItem: Equatable{
          self.imageURL = imageURL
     }
 }
-
-// we need to provide some mapping instructions since FeedItem has imageURL while the json in response has image
-extension FeedItem: Decodable {
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case description
-        case location
-        case imageURL = "image"
-    }
-}
